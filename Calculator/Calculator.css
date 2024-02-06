@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #2a2a2a;
+    font-family: 'Roboto', sans-serif;
+    outline: none;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calculator {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5), -10px -10px 20px #121212;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.output-screen {
+    grid-column: span 4;
+    height: 80px;
+    width: 100%;
+    background: linear-gradient(45deg, #363636, #1e1e1e);
+    box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.5),
+        -6px -6px 10px #121212,
+        inset -8px -8px 12px rgba(18, 18, 18, 0.7),
+        inset 5px 5px 8px rgba(0, 0, 0, 0.2);
+    border: none;
+    border-radius: 20px;
+    color: #999999;
+    /* Grey shade for text */
+    font-size: 40px;
+    text-align: right;
+    margin: 25px auto 10px auto;
+    padding: 20px;
+}
+
+button {
+    height: 60px;
+    width: 60px;
+    background-color: #333333;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5),
+        -4px 4px 8px #121212,
+        inset 2px 2px 4px rgba(0, 0, 0, 0.5),
+        inset -2px -2px 4px #121212;
+    border: none;
+    border-radius: 15px;
+    margin: 10px;
+    font-size: 18px;
+    font-weight: bold !important;
+    color: #999999 !important;
+    /* Grey shade for button text */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    background-color: #555555;
+    color: #999999 !important;
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.7),
+        -6px -6px 12px #121212,
+        inset 2px 2px 4px rgba(0, 0, 0, 0.5),
+        inset -2px -2px 4px #121212;
+}
+
+.equal {
+    width: 140px;
+    border-radius: 30px;
+    background-color: #444444;
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.7),
+        -6px 6px 12px #121212,
+        inset 2px 2px 4px rgba(0, 0, 0, 0.5),
+        inset -2px -2px 4px #121212;
+}
+
+button,
+.equal {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}

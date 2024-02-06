@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Calculator.css">
+    <title>Calculator</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="calculator">
+            <div id="output-screen" class="output-screen" onkeydown="validate(event)" tabindex="0"
+                contenteditable="true"></div>
+            <button onclick="Clear()">AC</button>
+            <button onclick="Back()">C</button>
+            <button onclick="Solve('%')">%</button>
+            <button onclick="Solve('/')">/</button>
+            <button onclick="Solve('7')">7</button>
+            <button onclick="Solve('8')">8</button>
+            <button onclick="Solve('9')">9</button>
+            <button onclick="Solve('*')">*</button>
+            <button onclick="Solve('4')">4</button>
+            <button onclick="Solve('5')">5</button>
+            <button onclick="Solve('6')">6</button>
+            <button onclick="Solve('-')">-</button>
+            <button onclick="Solve('1')">1</button>
+            <button onclick="Solve('2')">2</button>
+            <button onclick="Solve('3')">3</button>
+            <button onclick="Solve('+')">+</button>
+            <button onclick="Solve('.')">.</button>
+            <button onclick="Calculate()">=</button>
+        </div>
+    </div>
+    <script src="Calculator.js">
+
+    </script>
+</body>
+
+</html>

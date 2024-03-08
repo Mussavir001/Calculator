@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="A-Clock.css">
+    <title>Analog Clock</title>
+</head>
+
+<body>
+    <div id="clockContainer">
+        <!-- Analog Clock -->
+        <div id="clockBody"></div>
+        <div id="hour" class="clockHand"></div>
+        <div id="minute" class="clockHand"></div>
+        <div id="second" class="clockHand"></div>
+        <!-- Hour Indications -->
+        <div class="indication one"></div>
+        <div class="indication two"></div>
+        <div class="indication three"></div>
+        <div class="indication four"></div>
+        <div class="indication five"></div>
+        <div class="indication six"></div>
+        <div class="indication seven"></div>
+        <div class="indication eight"></div>
+        <div class="indication nine"></div>
+        <div class="indication ten"></div>
+        <div class="indication eleven"></div>
+        <div class="indication twelve"></div>
+    </div>
+
+    <!-- Button to move time forward -->
+    <button id="moveTimeForward">0</button>
+
+    <script>
+        let rapidMoveInterval;
+        const rapidMoveSpeed = 50; // milliseconds
+
+        function startRapidMove() {
+            rapidMoveInterval = setInterval(() => {
+                let d = new Date();
+                let sec = d.getSeconds();
+                sec += 1; // You can adjust the time increment as needed
+                let sec_rotation = 6 * sec;
+
+                document.getElementById('second').style.transform = `rotate(${sec_rotation}deg)`;
+            }, rapidMoveSpeed);
+        }
+
+        function stopRapidMove() {
+            clearInterval(rapidMoveInterval);
+        }
+
+        // Set up interval to update the clock every second
+        setInterval(() => {
+            let d = new Date();
+            let hr = d.getHours();
+            let min = d.getMinutes();
+            let sec = d.getSeconds();
+            let hr_rotation = 30 * hr + min / 2;
+            let min_rotation = 6 * min;
+            let sec_rotation = 6 * sec;
+
+            document.getElementById('hour').style.transform = `rotate(${hr_rotation}deg)`;
+            document.getElementById('minute').style.transform = `rotate(${min_rotation}deg)`;
+            document.getElementById('second').style.transform = `rotate(${sec_rotation}deg)`;
+        }, 1000);
+
+        // Hammer.js touch event listeners for the button
+        const button = document.getElementById('moveTimeForward');
+        const hammer = new Hammer(button);
+        hammer.on('press', startRapidMove);
+        hammer.on('pressup', stopRapidMove);
+    </script>
+</body>
+
+</html>

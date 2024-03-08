@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="D-Clock.css">
+    <title>Digital Clock</title>
+</head>
+
+<body>
+
+    <div id="clock-box">
+        <div id="clock-container">
+            <div id="clock"></div>
+        </div>
+        <div id="date"></div>
+        <div class="clock-btn-container">
+            <button id="toggleBtn" class="clock-btn" onclick="toggleTimeFormat()">24 12</button>
+            <button id="modeBtn" class="clock-btn" onclick="toggleEditMode()">Mode</button>
+            <button id="upBtn" class="clock-btn" onclick="adjustTime(+1)"> Up </button>
+            <button id="downBtn" class="clock-btn" onclick="adjustTime(-1)">Down</button>
+        </div>
+    </div>
+
+    <script>
+        const clock = document.getElementById("clock");
+        const dateElement = document.getElementById("date");
+        let is24HourFormat = true;
+        let isEditMode = false;
+        let selectedComponent = 'hours'; // 'hours' or 'minutes'
+
+        const updateClock = () => {
+            const date = new Date();
+
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            let seconds = date.getSeconds();
+
+            if (isEditMode) {
+                if (selectedComponent === 'hours') {
+                    hours = adjustValue(hours);
+                } else {
+                    minutes = adjustValue(minutes);
+                }
+                seconds = adjustValue(seconds);
+            } else {
+                let period = "AM";
+
+                if (!is24HourFormat) {
+                    period = hours >= 12 ? "PM" : "AM";
+                    hours = hours % 12 || 12;
+                } else {
+                    period = "  "
+                }
+            }
+
+            const timeString = `${hours}:${minutes}:${seconds}`;
+            clock.innerText = timeString;
+
+            const dateString = `${date.toDateString()}`;
+            dateElement.innerText = dateString;
+        };
+
+        const toggleTimeFormat = () => {
+            is24HourFormat = !is24HourFormat;
+            updateClock();
+        };
+
+        const toggleEditMode = () => {
+            isEditMode = !isEditMode;
+            updateClock();
+        };
+
+        const adjustTime = (direction) => {
+            const date = new Date();
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            let seconds = date.getSeconds();
+
+            if (isEditMode) {
+                if (selectedComponent === 'hours') {
+                    hours = adjustValue(hours + (direction === 'up' ? 1 : -1), 24);
+                } else {
+                    minutes = adjustValue(minutes + (direction === 'up' ? 1 : -1), 60);
+                }
+                seconds = adjustValue(seconds, 60);
+            }
+
+            const timeString = `${hours}:${minutes}:${seconds}`;
+            clock.innerText = timeString;
+        };
+
+        const adjustValue = (value, maxValue) => {
+            if (value < 0) {
+                return maxValue - 1;
+            } else if (value >= maxValue) {
+                return 0;
+            }
+            return value;
+        };
+
+        updateClock();
+
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+
+</html>

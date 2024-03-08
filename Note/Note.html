@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note</title>
+    <link rel="stylesheet" href="Note.css">
+</head>
+
+<body>
+    <!-- Search bar to find a particular note by title -->
+    <input type="text" id="search" placeholder="Search by Title">
+
+    <!-- Button to add a new note -->
+    <button id="add">Add Note</button>
+
+    <!-- Container to hold the notes -->
+    <div id="notes-container"></div>
+
+    <script>
+        // Get references to the button, search input, and notes container
+        const addBtn = document.getElementById("add");
+        const searchInput = document.getElementById("search");
+        const notesContainer = document.getElementById("notes-container");
+
+        // Retrieve existing notes from local storage or initialize an empty array
+        const notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+        // Display existing notes
+        if (notes) {
+            renderNotes(notes);
+        }
+
+        // Add an event listener to the "Add Note" button
+        addBtn.addEventListener("click", () => addNewNoteElement());
+
+        // Add an event listener to the search input
+        searchInput.addEventListener("input", () => filterNotesByTitle());
+
+        // Function to create a new note element
+        function addNewNoteElement(title = "", text = "", left = "0px", top = "0px") {
+            const noteElement = document.createElement("div");
+            noteElement.classList.add("note");
+
+            // HTML structure for each note
+            noteElement.innerHTML = `
+        <div class="note-header">
+            <input type="text" class="title" placeholder="Title" value="${title}">
+            <div class="menu">
+                <div class="menu-icon"></div>
+                <div class="menu-options">
+                    <div class="menu-option pin">Pin</div>
+                    <div class="menu-option delete">Delete</div>
+                </div>
+            </div>
+        </div>
+        <textarea>${text}</textarea>
+    `;
+
+            // Set initial position of the note
+            noteElement.style.left = left;
+            noteElement.style.top = top;
+
+            // Make the entire note div draggable
+            makeElementDraggable(noteElement);
+
+            // Get references to the delete and pin options within the note
+            const deleteOption = noteElement.querySelector('.menu-option.delete');
+            const pinOption = noteElement.querySelector('.menu-option.pin');
+
+            // Add event listener to delete option
+            deleteOption.addEventListener("click", () => {
+                // Remove the note element from the container
+                notesContainer.removeChild(noteElement);
+                // Update local storage after deletion
+                updateLocalStorage();
+            });
+
+            // Add event listener to pin option
+            pinOption.addEventListener("click", () => {
+                // Move the note element to the first position
+                notesContainer.prepend(noteElement);
+                // Update local storage after pinning
+                updateLocalStorage();
+            });
+
+            // Append the new note element to the container
+            notesContainer.appendChild(noteElement);
+            // Update local storage with the new note
+            updateLocalStorage();
+        }
+
+        // Function to make an element draggable
+        function makeElementDraggable(element) {
+            element.draggable = true;
+
+            element.addEventListener("dragstart", (e) => {
+                e.dataTransfer.setData("text/plain", "");
+                element.classList.add("dragging");
+            });
+
+            element.addEventListener("dragend", () => {
+                element.classList.remove("dragging");
+                // Update local storage after dragging
+                updateLocalStorage();
+            });
+        }
+
+        // Function to update local storage with current notes data
+        function updateLocalStorage() {
+            // Get all note elements
+            const noteElements = document.querySelectorAll(".note");
+            // Create an array to store note data
+            const updatedNotes = [];
+
+            // Iterate through note elements and store their data
+            noteElements.forEach((noteElement) => {
+                const title = noteElement.querySelector(".title").value;
+                const text = noteElement.querySelector("textarea").value;
+                const left = noteElement.style.left;
+                const top = noteElement.style.top;
+
+                updatedNotes.push({ title, text, left, top });
+            });
+
+            // Update local storage with the new note data
+            localStorage.setItem("notes", JSON.stringify(updatedNotes));
+        }
+
+        // Function to render notes from data
+        function renderNotes(data) {
+            data.forEach((noteData) => addNewNoteElement(noteData.title, noteData.text, noteData.left, noteData.top));
+        }
+
+        // Function to filter notes by title based on the search input
+        function filterNotesByTitle() {
+            // ... (rest of the filterNotesByTitle code remains the same)
+        }
+
+
+    </script>
+</body>
+
+</html>
